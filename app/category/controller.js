@@ -2,7 +2,8 @@ const Category = require('./model');
 
 module.exports = {
   index: async (req, res) => {
-    res.render('admin/category/view_category');
+    const categories = await Category.find();
+    res.render('admin/category/view_category', { categories });
   },
   viewCreate: async (req, res) => {
     try {
