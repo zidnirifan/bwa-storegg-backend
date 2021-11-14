@@ -12,7 +12,10 @@
       <td><%= index + 1 %></td>
       <td><%= category.name %></td>
       <td>
-        <form action="">
+        <form
+          action="/category/delete/<%= category._id %>?_method=DELETE"
+          method="POST"
+        >
           <a href="/category/edit/<%= category._id %>" class="btn btn-warning">
             <i class="fas fa-pencil-alt"></i> Ubah
           </a>

@@ -45,4 +45,14 @@ module.exports = {
       console.log(err);
     }
   },
+  actionDelete: async ({ params }, res) => {
+    try {
+      const { id } = params;
+
+      await Category.findOneAndRemove({ _id: id });
+      res.redirect('/category');
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };
