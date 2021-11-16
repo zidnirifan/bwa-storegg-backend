@@ -22,7 +22,7 @@ module.exports = {
     try {
       const { coinName, coinQuantity, price } = req.body;
 
-      const nominal = await Nominal({ coinName, coinQuantity, price });
+      const nominal = new Nominal({ coinName, coinQuantity, price });
       await nominal.save();
 
       req.flash('alertMessage', 'Berhasil tambah nominal');

@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const nominalSchema = mongoose.Schema({
+const nominalSchema = new Schema({
   coinQuantity: {
     type: Number,
     default: 0,
   },
   coinName: {
     type: String,
-    require: [true, 'Nama koin harus diisi'],
+    required: [true, 'Nama koin harus diisi'],
   },
   price: {
     type: Number,
@@ -15,4 +15,4 @@ const nominalSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('nominals', nominalSchema);
+module.exports = model('Nominal', nominalSchema);

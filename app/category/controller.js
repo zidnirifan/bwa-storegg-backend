@@ -22,7 +22,7 @@ module.exports = {
     try {
       const { name } = req.body;
 
-      const category = await Category({ name });
+      const category = new Category({ name });
       await category.save();
 
       req.flash('alertMessage', 'Berhasil tambah kategory');
