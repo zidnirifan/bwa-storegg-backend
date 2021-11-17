@@ -14,7 +14,7 @@
     <tr>
       <td><%= index + 1 %></td>
       <td><%= voucher.name %></td>
-      <td><%= voucher.category.name %></td>
+      <td><%= voucher.category ? voucher.category.name : '-' %></td>
       <td>
         <% voucher.nominals.forEach(nominal => { %>
         <span class="badge badge-warning">
