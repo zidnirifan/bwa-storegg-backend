@@ -7,7 +7,8 @@ const {
   actionCreate,
   viewEdit,
   actionEdit,
-  // actionDelete,
+  actionDelete,
+  actionStatus,
 } = require('./controller');
 
 const router = express.Router();
@@ -26,6 +27,7 @@ router.put(
   multer({ dest: os.tmpdir() }).single('image'),
   actionEdit
 );
-// router.delete('/delete/:id', actionDelete);
+router.delete('/delete/:id', actionDelete);
+router.put('/status/:id', actionStatus);
 
 module.exports = router;
