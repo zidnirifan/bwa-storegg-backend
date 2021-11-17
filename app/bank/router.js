@@ -5,7 +5,7 @@ const {
   actionCreate,
   viewEdit,
   actionEdit,
-  // actionDelete,
+  actionDelete,
 } = require('./controller');
 
 const router = express.Router();
@@ -16,6 +16,6 @@ router.get('/create', viewCreate);
 router.post('/create', actionCreate);
 router.get('/edit/:id', viewEdit);
 router.put('/edit/:id', actionEdit);
-// router.delete('/delete/:id', actionDelete);
+router.delete('/delete/:id', actionDelete);
 
 module.exports = router;
