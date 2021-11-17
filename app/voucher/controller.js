@@ -7,11 +7,14 @@ const config = require('../../config');
 
 module.exports = {
   index: async (req, res) => {
+    const vouchers = await Voucher.find()
+      .populate('category')
+      .populate('nominals');
+
     const alertMessage = req.flash('alertMessage');
     const alertStatus = req.flash('alertStatus');
-
     const alert = { message: alertMessage, status: alertStatus };
-    const vouchers = await Voucher.find();
+
     res.render('admin/voucher/view_voucher', { vouchers, alert });
   },
   viewCreate: async (req, res) => {
