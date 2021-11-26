@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const paymentSchema = new Schema({
   type: {
     type: String,
-    required: [true, 'Type pembayaran harus diisi'],
+    required: [true, 'Tipe pembayaran harus diisi'],
   },
   status: {
     type: String,
@@ -13,7 +13,8 @@ const paymentSchema = new Schema({
   banks: [
     {
       type: Schema.Types.ObjectId,
-      required: 'Bank',
+      ref: 'Bank',
+      required: [true, 'Bank harus diisi'],
     },
   ],
 });
