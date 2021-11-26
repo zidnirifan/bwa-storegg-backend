@@ -27,7 +27,7 @@ module.exports = {
       const payment = new Payment({ type, banks });
       await payment.save();
 
-      req.flash('alertMessage', 'Berhasil tambah payment');
+      req.flash('alertMessage', 'Berhasil tambah jenis pembayaran');
       req.flash('alertStatus', 'success');
 
       res.redirect('/payment');
@@ -37,39 +37,37 @@ module.exports = {
       res.redirect('/payment');
     }
   },
-  // viewEdit: async (req, res) => {
-  //   try {
-  //     const { id } = req.params;
+  viewEdit: async (req, res) => {
+    try {
+      const { id } = req.params;
 
-  //     const payment = await Payment.findOne({ _id: id });
+      const payment = await Payment.findOne({ _id: id }).populate('banks');
+      const banks = await Bank.find();
 
-  //     res.render('admin/payment/edit', { payment });
-  //   } catch (err) {
-  //     req.flash('alertMessage', err.message);
-  //     req.flash('alertStatus', 'danger');
-  //     res.redirect('/payment');
-  //   }
-  // },
-  // actionEdit: async (req, res) => {
-  //   try {
-  //     const { id } = req.params;
-  //     const { name, paymentName, accountNumber } = req.body;
+      res.render('admin/payment/edit', { payment, banks });
+    } catch (err) {
+      req.flash('alertMessage', err.message);
+      req.flash('alertStatus', 'danger');
+      res.redirect('/payment');
+    }
+  },
+  actionEdit: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { type, banks } = req.body;
 
-  //     await Payment.findOneAndUpdate(
-  //       { _id: id },
-  //       { name, paymentName, accountNumber }
-  //     );
+      await Payment.findOneAndUpdate({ _id: id }, { type, banks });
 
-  //     req.flash('alertMessage', 'Berhasil ubah payment');
-  //     req.flash('alertStatus', 'success');
+      req.flash('alertMessage', 'Berhasil ubah jenis pembayaran');
+      req.flash('alertStatus', 'success');
 
-  //     res.redirect('/payment');
-  //   } catch (err) {
-  //     req.flash('alertMessage', err.message);
-  //     req.flash('alertStatus', 'danger');
-  //     res.redirect('/payment');
-  //   }
-  // },
+      res.redirect('/payment');
+    } catch (err) {
+      req.flash('alertMessage', err.message);
+      req.flash('alertStatus', 'danger');
+      res.redirect('/payment');
+    }
+  },
   // actionDelete: async (req, res) => {
   //   try {
   //     const { id } = req.params;
