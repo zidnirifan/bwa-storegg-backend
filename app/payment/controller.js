@@ -7,7 +7,7 @@ module.exports = {
     const alertStatus = req.flash('alertStatus');
 
     const alert = { message: alertMessage, status: alertStatus };
-    const payments = await Payment.find();
+    const payments = await Payment.find().populate('banks');
     res.render('admin/payment/view_payment', { payments, alert });
   },
   viewCreate: async (req, res) => {
