@@ -84,4 +84,25 @@ module.exports = {
       res.redirect('/payment');
     }
   },
+  actionStatus: async (req, res) => {
+    try {
+      const { id } = req.params;
+      let { status } = await Payment.findOne({ _id: id });
+
+      status = status === 'Y' ? 'N' : 'Y';
+
+      await Payment.findOneAndUpdate({ _id: id }, { status });
+      req.flash(
+        'alertMessage',
+        `Berhasil ${status === 'Y' ? 'aktifkan' : 'matikan'} pembayaran`
+      );
+      req.flash('alertStatus', 'success');
+
+      res.redirect('/payment');
+    } catch (err) {
+      req.flash('alertMessage', err.message);
+      req.flash('alertStatus', 'danger');
+      res.redirect('/payment');
+    }
+  },
 };
