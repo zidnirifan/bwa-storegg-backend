@@ -3,17 +3,23 @@ const Bank = require('../bank/model');
 
 module.exports = {
   index: async (req, res) => {
+    const { name } = req.session.user;
+    const title = 'Jenis Pembayaran | StoreGG';
+
     const alertMessage = req.flash('alertMessage');
     const alertStatus = req.flash('alertStatus');
 
     const alert = { message: alertMessage, status: alertStatus };
     const payments = await Payment.find().populate('banks');
-    res.render('admin/payment/view_payment', { payments, alert });
+    res.render('admin/payment/view_payment', { payments, alert, title, name });
   },
   viewCreate: async (req, res) => {
     try {
+      const { name } = req.session.user;
+      const title = 'Tambah pembayaran | StoreGG';
+
       const banks = await Bank.find();
-      res.render('admin/payment/create', { banks });
+      res.render('admin/payment/create', { banks, title, name });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');
@@ -39,12 +45,14 @@ module.exports = {
   },
   viewEdit: async (req, res) => {
     try {
+      const { name } = req.session.user;
+      const title = 'Edit pembayaran | StoreGG';
       const { id } = req.params;
 
       const payment = await Payment.findOne({ _id: id }).populate('banks');
       const banks = await Bank.find();
 
-      res.render('admin/payment/edit', { payment, banks });
+      res.render('admin/payment/edit', { payment, banks, name, title });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');

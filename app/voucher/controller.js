@@ -7,6 +7,9 @@ const config = require('../../config');
 
 module.exports = {
   index: async (req, res) => {
+    const { name } = req.session.user;
+    const title = 'Voucher | StoreGG';
+
     const vouchers = await Voucher.find()
       .populate('category')
       .populate('nominals');
@@ -15,14 +18,16 @@ module.exports = {
     const alertStatus = req.flash('alertStatus');
     const alert = { message: alertMessage, status: alertStatus };
 
-    res.render('admin/voucher/view_voucher', { vouchers, alert });
+    res.render('admin/voucher/view_voucher', { vouchers, alert, title, name });
   },
   viewCreate: async (req, res) => {
     try {
+      const { name } = req.session.user;
+      const title = 'Tambah voucher | StoreGG';
       const categories = await Category.find();
       const nominals = await Nominal.find();
 
-      res.render('admin/voucher/create', { categories, nominals });
+      res.render('admin/voucher/create', { categories, nominals, name, title });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');
@@ -90,6 +95,8 @@ module.exports = {
   },
   viewEdit: async (req, res) => {
     try {
+      const { name } = req.session.user;
+      const title = 'Edit voucher | StoreGG';
       const { id } = req.params;
 
       const categories = await Category.find();
@@ -98,7 +105,13 @@ module.exports = {
         .populate('category')
         .populate('nominals');
 
-      res.render('admin/voucher/edit', { voucher, categories, nominals });
+      res.render('admin/voucher/edit', {
+        voucher,
+        categories,
+        nominals,
+        title,
+        name,
+      });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');

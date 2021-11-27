@@ -2,16 +2,25 @@ const Category = require('./model');
 
 module.exports = {
   index: async (req, res) => {
+    const { name } = req.session.user;
+    const title = 'Kategori | StoreGG';
     const alertMessage = req.flash('alertMessage');
     const alertStatus = req.flash('alertStatus');
 
     const alert = { message: alertMessage, status: alertStatus };
     const categories = await Category.find();
-    res.render('admin/category/view_category', { categories, alert });
+    res.render('admin/category/view_category', {
+      categories,
+      alert,
+      title,
+      name,
+    });
   },
   viewCreate: async (req, res) => {
     try {
-      res.render('admin/category/create');
+      const { name } = req.session.user;
+      const title = 'Tambah kategori | StoreGG';
+      res.render('admin/category/create', { name, title });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');
@@ -37,11 +46,13 @@ module.exports = {
   },
   viewEdit: async (req, res) => {
     try {
+      const { name } = req.session.user;
+      const title = 'Tambah edit | StoreGG';
       const { id } = req.params;
 
       const category = await Category.findOne({ _id: id });
 
-      res.render('admin/category/edit', { category });
+      res.render('admin/category/edit', { category, name, title });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');

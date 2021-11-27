@@ -2,16 +2,21 @@ const Nominal = require('./model');
 
 module.exports = {
   index: async (req, res) => {
+    const { name } = req.session.user;
+    const title = 'Nominal | StoreGG';
+
     const alertMessage = req.flash('alertMessage');
     const alertStatus = req.flash('alertStatus');
 
     const alert = { message: alertMessage, status: alertStatus };
     const nominals = await Nominal.find();
-    res.render('admin/nominal/view_nominal', { nominals, alert });
+    res.render('admin/nominal/view_nominal', { nominals, alert, title, name });
   },
   viewCreate: async (req, res) => {
     try {
-      res.render('admin/nominal/create');
+      const { name } = req.session.user;
+      const title = 'Tambah nominal | StoreGG';
+      res.render('admin/nominal/create', { title, name });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');
@@ -37,11 +42,13 @@ module.exports = {
   },
   viewEdit: async (req, res) => {
     try {
+      const { name } = req.session.user;
+      const title = 'Edit nominal | StoreGG';
       const { id } = req.params;
 
       const nominal = await Nominal.findOne({ _id: id });
 
-      res.render('admin/nominal/edit', { nominal });
+      res.render('admin/nominal/edit', { nominal, name, title });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');

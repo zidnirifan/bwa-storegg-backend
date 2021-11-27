@@ -1,5 +1,7 @@
 module.exports = {
   index: async (req, res) => {
-    res.render('index');
+    const { name } = req.session.user;
+    const title = 'Dashboard | StoreGG';
+    res.render('index', { name, title });
   },
 };

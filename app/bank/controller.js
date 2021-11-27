@@ -2,16 +2,21 @@ const Bank = require('./model');
 
 module.exports = {
   index: async (req, res) => {
+    const { name } = req.session.user;
+    const title = 'Bank | StoreGG';
+
     const alertMessage = req.flash('alertMessage');
     const alertStatus = req.flash('alertStatus');
 
     const alert = { message: alertMessage, status: alertStatus };
     const banks = await Bank.find();
-    res.render('admin/bank/view_bank', { banks, alert });
+    res.render('admin/bank/view_bank', { banks, alert, name, title });
   },
   viewCreate: async (req, res) => {
     try {
-      res.render('admin/bank/create');
+      const { name } = req.session.user;
+      const title = 'Tambah bank | StoreGG';
+      res.render('admin/bank/create', { name, title });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');
@@ -37,11 +42,13 @@ module.exports = {
   },
   viewEdit: async (req, res) => {
     try {
+      const { name } = req.session.user;
+      const title = 'Edit bank | StoreGG';
       const { id } = req.params;
 
       const bank = await Bank.findOne({ _id: id });
 
-      res.render('admin/bank/edit', { bank });
+      res.render('admin/bank/edit', { bank, title, name });
     } catch (err) {
       req.flash('alertMessage', err.message);
       req.flash('alertStatus', 'danger');
