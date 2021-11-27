@@ -10,10 +10,11 @@ const {
   actionDelete,
   actionStatus,
 } = require('./controller');
+const { isLogin } = require('../middleware/auth');
 
 const router = express.Router();
 
-/* GET home page. */
+router.use(isLogin);
 router.get('/', index);
 router.get('/create', viewCreate);
 router.post(
