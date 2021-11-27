@@ -7,7 +7,11 @@ module.exports = {
     const alertStatus = req.flash('alertStatus');
     const alert = { message: alertMessage, status: alertStatus };
 
-    res.render('admin/user/view_login', { alert });
+    if (req.session.user === null || req.session.user === undefined) {
+      res.render('admin/user/view_login', { alert });
+    } else {
+      res.redirect('/dashboard');
+    }
   },
   actionLogin: async (req, res) => {
     try {
@@ -17,8 +21,15 @@ module.exports = {
       if (user) {
         if (user.status === 'Y') {
           const isMatch = await bcrypt.compare(password, user.password);
-          if (isMatch) res.redirect('/dashboard');
-          else {
+          if (isMatch) {
+            req.session.user = {
+              id: user._id,
+              email: user.email,
+              status: user.status,
+              name: user.name,
+            };
+            res.redirect('/dashboard');
+          } else {
             req.flash('alertMessage', 'Kata sandi salah');
             req.flash('alertStatus', 'danger');
             res.redirect('/');
