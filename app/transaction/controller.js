@@ -8,7 +8,7 @@ module.exports = {
     const { name } = req.session.user;
     const title = 'Transaksi | StoreGG';
 
-    const transactions = await Transaction.find();
+    const transactions = await Transaction.find().populate('player');
 
     res.render('admin/transaction/view_transaction', {
       transactions,

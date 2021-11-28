@@ -39,10 +39,10 @@
         <span class="badge badge-danger"> <%= transaction.status %> </span>
         <% } %>
       </td>
-      <td>-</td>
+      <td><%= transaction.player?.name %></td>
       <td>
         <form
-          action="/transaction/status/<%= transaction._id %>?status=success&_method=PUT"
+          action="/transaction/status<%= transaction._id %>?status=success&_method=PUT"
           style="display: inline-block"
           method="POST"
         >
@@ -51,7 +51,7 @@
           </button>
         </form>
         <form
-          action="/transaction/status/<%= transaction._id %>?status=failed&_method=PUT"
+          action="/transaction/status<%= transaction._id %>?status=failed&_method=PUT"
           method="POST"
           style="display: inline-block"
         >
