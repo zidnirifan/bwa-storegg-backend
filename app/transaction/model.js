@@ -58,12 +58,12 @@ const transactionSchema = new Schema(
       type: String,
       minlength: [3, 'Panjang nama harus antara 3-225 karakter'],
       maxlength: [255, 'Panjang nama harus antara 3-225 karakter'],
-      required: [true, 'Kata sandi harus diisi'],
+      required: [true, 'nama harus diisi'],
     },
     accountUser: {
       type: String,
-      minlength: [3, 'Panjang nama harus antara 3-225 karakter'],
-      maxlength: [255, 'Panjang nama harus antara 3-225 karakter'],
+      minlength: [3, 'Panjang akun harus antara 3-225 karakter'],
+      maxlength: [255, 'Panjang akun harus antara 3-225 karakter'],
       required: [true, 'Nama akun harus diisi'],
     },
     tax: {
