@@ -25,7 +25,7 @@ const userSchema = new Schema(
       default: 'Y',
     },
     phoneNumber: {
-      type: String,
+      type: Number,
       required: [true, 'Nomor HP harus diisi'],
     },
   },

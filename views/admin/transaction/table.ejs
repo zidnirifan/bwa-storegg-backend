@@ -1,0 +1,66 @@
+<table id="example2" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Nama Game</th>
+      <th>Item</th>
+      <th>Total Harga</th>
+      <th>Status</th>
+      <th>Nama Player</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% transactions.forEach((transaction, index) => { %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td>
+        <img
+          src="/uploads/<%= transaction?.historyVoucherTopup?.thumbnail %> "
+          alt=""
+          height="48px"
+        />
+        <br />
+        <%= transaction?.historyVoucherTopup?.gameName %>
+        <br />
+        <%= transaction?.historyVoucherTopup?.category %>
+      </td>
+      <td>
+        <%= transaction?.historyVoucherTopup?.coinQuantity %> <%=
+        transaction?.historyVoucherTopup?.coinName %>
+      </td>
+      <td><%= transaction.value %></td>
+      <td>
+        <% if(transaction.status === 'pending') { %>
+        <span class="badge badge-warning"> <%= transaction.status %> </span>
+        <% } else if(transaction.status === 'success') { %>
+        <span class="badge badge-success"> <%= transaction.status %> </span>
+        <% } else { %>
+        <span class="badge badge-danger"> <%= transaction.status %> </span>
+        <% } %>
+      </td>
+      <td>-</td>
+      <td>
+        <form
+          action="/transaction/status/<%= transaction._id %>?status=success&_method=PUT"
+          style="display: inline-block"
+          method="POST"
+        >
+          <button class="btn btn-primary btn-sm">
+            <i class="fas fa-check-square"></i> Terima
+          </button>
+        </form>
+        <form
+          action="/transaction/status/<%= transaction._id %>?status=failed&_method=PUT"
+          method="POST"
+          style="display: inline-block"
+        >
+          <button class="btn btn-danger btn-sm">
+            <i class="fas fa-window-close"></i> Tolak
+          </button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
