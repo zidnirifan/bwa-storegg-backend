@@ -1,10 +1,15 @@
+/* eslint-disable func-names */
 const { Schema, model } = require('mongoose');
+const bcrypt = require('bcrypt');
+
+const HASH_ROUND = 10;
 
 const playerSchema = new Schema(
   {
     email: {
       type: String,
       required: [true, 'Email harus diisi'],
+      unique: true,
     },
     name: {
       type: String,
@@ -48,5 +53,28 @@ const playerSchema = new Schema(
   },
   { timestamps: true }
 );
+
+playerSchema.path('email').validate(
+  async function (value) {
+    const count = await this.model('Player').countDocuments({ email: value });
+    return !count;
+  },
+  (attr) => `${attr.value} sudah terdaftar`
+);
+
+playerSchema.path('username').validate(
+  async function (value) {
+    const count = await this.model('Player').countDocuments({
+      username: value,
+    });
+    return !count;
+  },
+  (attr) => `${attr.value} sudah digunakan`
+);
+
+playerSchema.pre('save', async function (next) {
+  this.password = await bcrypt.hash(this.password, HASH_ROUND);
+  next();
+});
 
 module.exports = model('Player', playerSchema);
