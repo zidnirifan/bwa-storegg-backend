@@ -1,5 +1,7 @@
 const path = require('path');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Player = require('../player/model');
 const config = require('../../config');
 
@@ -58,6 +60,42 @@ module.exports = {
         });
       }
       return next(err);
+    }
+  },
+  signin: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      const player = await Player.findOne({ email });
+
+      if (player) {
+        const checkPassword = await bcrypt.compare(password, player.password);
+
+        if (checkPassword) {
+          const token = jwt.sign(
+            {
+              id: player._id,
+              email: player.email,
+              username: player.username,
+            },
+            config.jwtKey
+          );
+
+          res.json({
+            data: { token },
+          });
+        } else {
+          res.status(403).json({
+            message: 'password salah',
+          });
+        }
+      } else {
+        res.status(404).json({
+          message: 'user tidak ditemukan',
+        });
+      }
+    } catch (err) {
+      res.status(500).json({ message: 'Internal server error' });
     }
   },
 };
