@@ -44,27 +44,11 @@ const transactionSchema = new Schema(
         required: [true, 'Nomor rekening harus diisi'],
       },
     },
-    historyUser: {
-      name: {
-        type: String,
-        required: [true, 'Nama player harus diisi'],
-      },
-      phoneNumber: {
-        type: Number,
-        required: [true, 'Nomor HP harus diisi'],
-      },
-    },
     name: {
       type: String,
       minlength: [3, 'Panjang nama harus antara 3-225 karakter'],
       maxlength: [255, 'Panjang nama harus antara 3-225 karakter'],
       required: [true, 'nama harus diisi'],
-    },
-    accountUser: {
-      type: String,
-      minlength: [3, 'Panjang akun harus antara 3-225 karakter'],
-      maxlength: [255, 'Panjang akun harus antara 3-225 karakter'],
-      required: [true, 'Nama akun harus diisi'],
     },
     tax: {
       type: Number,
@@ -82,16 +66,6 @@ const transactionSchema = new Schema(
     player: {
       type: Schema.Types.ObjectId,
       ref: 'Player',
-    },
-    banks: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Bank',
-      },
-    ],
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
     },
     voucherTopup: {
       type: Schema.Types.ObjectId,
