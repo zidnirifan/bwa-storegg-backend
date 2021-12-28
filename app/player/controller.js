@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const path = require('path');
+const fs = require('fs');
 const Voucher = require('../voucher/model');
 const Category = require('../category/model');
 const Nominal = require('../nominal/model');
@@ -198,6 +200,61 @@ module.exports = {
       );
 
       return res.json({ data: player });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  },
+  // eslint-disable-next-line consistent-return
+  editProfile: async (req, res) => {
+    try {
+      const { name = '', phoneNumber = '' } = req.body;
+      const payload = {};
+
+      console.log(req.body);
+      if (name.length) payload.name = name;
+      if (phoneNumber.length) payload.phoneNumber = phoneNumber;
+
+      if (req.file) {
+        const tmpPath = req.file.path;
+        const originalExt =
+          req.file.originalname.split('.')[
+            req.file.originalname.split('.').length - 1
+          ];
+        const filename = `${req.file.filename}.${originalExt}`;
+        const targetPath = path.resolve(
+          config.rootPath,
+          `public/uploads/${filename}`
+        );
+
+        const src = fs.createReadStream(tmpPath);
+        const dest = fs.createWriteStream(targetPath);
+
+        src.pipe(dest);
+        src.on('end', async () => {
+          await Player.findOneAndUpdate(
+            { _id: req.playerId },
+            { ...payload, avatar: filename },
+            {
+              new: true,
+              runValidators: true,
+            }
+          );
+
+          return res
+            .status(201)
+            .json({ message: 'Berhasil memperbarui profile' });
+        });
+      } else {
+        await Player.findOneAndUpdate({ _id: req.playerId }, payload, {
+          new: true,
+          runValidators: true,
+        });
+
+        return res.json({
+          message: 'Berhasil memperbarui profile',
+        });
+      }
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: 'Internal server error' });

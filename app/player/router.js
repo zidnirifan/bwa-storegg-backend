@@ -1,4 +1,6 @@
 const { Router } = require('express');
+const multer = require('multer');
+const os = require('os');
 const {
   landingPage,
   detailPage,
@@ -8,6 +10,7 @@ const {
   historyDetail,
   dashboard,
   profile,
+  editProfile,
 } = require('./controller');
 const { isLoginPlayer } = require('../middleware/auth');
 
@@ -21,5 +24,11 @@ router.get('/histories', isLoginPlayer, history);
 router.get('/histories/:id', isLoginPlayer, historyDetail);
 router.get('/dashboard', isLoginPlayer, dashboard);
 router.get('/profile', isLoginPlayer, profile);
+router.put(
+  '/profile',
+  isLoginPlayer,
+  multer({ dest: os.tmpdir() }).single('avatar'),
+  editProfile
+);
 
 module.exports = router;
