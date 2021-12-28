@@ -122,4 +122,34 @@ module.exports = {
       return res.status(500).json({ message: 'Internal server error' });
     }
   },
+  history: async (req, res) => {
+    try {
+      const { status = '' } = req.query;
+      let criteria = {};
+
+      if (status.length) {
+        criteria = { status: { $regex: `${status}`, $options: 'i' } };
+      }
+
+      if (req.playerId) {
+        criteria = { ...criteria, player: req.playerId };
+      }
+
+      const histories = await Transaction.find(criteria).select(
+        'historyVoucherTopup value category status'
+      );
+
+      const total = histories
+        .map((e) => e.value)
+        .reduce((accumulator, curr) => accumulator + curr);
+
+      return res.json({
+        data: histories,
+        total,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  },
 };
