@@ -5,6 +5,7 @@ const {
   category,
   checkout,
   history,
+  historyDetail,
 } = require('./controller');
 const { isLoginPlayer } = require('../middleware/auth');
 
@@ -15,5 +16,6 @@ router.get('/:id/detail', detailPage);
 router.get('/categories', category);
 router.post('/checkout', isLoginPlayer, checkout);
 router.get('/histories', isLoginPlayer, history);
+router.get('/histories/:id', isLoginPlayer, historyDetail);
 
 module.exports = router;

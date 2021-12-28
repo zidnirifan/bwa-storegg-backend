@@ -152,4 +152,19 @@ module.exports = {
       return res.status(500).json({ message: 'Internal server error' });
     }
   },
+  historyDetail: async (req, res) => {
+    try {
+      const { id: _id } = req.params;
+
+      const history = await Transaction.findOne({ _id });
+
+      if (!history)
+        return res.status(404).json({ message: 'Transaksi tidak ditemukan' });
+
+      return res.json({ data: history });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  },
 };
