@@ -170,16 +170,6 @@ module.exports = {
   },
   dashboard: async (req, res) => {
     try {
-      // const histories = await Transaction.find({ player: req.playerId }).select(
-      //   'historyVoucherTopup.category value'
-      // );
-
-      // const value = histories
-      //   .map((e) => e.value)
-      //   .reduce((accumulator, curr) => accumulator + curr);
-
-      // return res.json({ data: histories, value });
-
       const count = await Transaction.aggregate([
         { $match: { player: mongoose.Types.ObjectId(req.playerId) } },
         {
