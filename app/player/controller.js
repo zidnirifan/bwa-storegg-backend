@@ -107,6 +107,7 @@ module.exports = {
           accountNumber: resBank._doc.accountNumber,
         },
         name: player._doc.name,
+        category: resVoucher._doc.category._id,
         tax,
         value,
         player: req.playerId,
@@ -162,6 +163,39 @@ module.exports = {
         return res.status(404).json({ message: 'Transaksi tidak ditemukan' });
 
       return res.json({ data: history });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  },
+  dashboard: async (req, res) => {
+    try {
+      // const histories = await Transaction.find({ player: req.playerId }).select(
+      //   'historyVoucherTopup.category value'
+      // );
+
+      // const value = histories
+      //   .map((e) => e.value)
+      //   .reduce((accumulator, curr) => accumulator + curr);
+
+      // return res.json({ data: histories, value });
+
+      const count = await Transaction.aggregate([
+        { $match: { player: mongoose.Types.ObjectId(req.playerId) } },
+        {
+          $group: {
+            _id: '$category',
+            name: { $first: '$historyVoucherTopup.category' },
+            value: { $sum: '$value' },
+          },
+        },
+      ]);
+
+      const histories = await Transaction.find({ player: req.playerId }).sort({
+        updatedAt: -1,
+      });
+
+      return res.json({ data: histories, count });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: 'Internal server error' });

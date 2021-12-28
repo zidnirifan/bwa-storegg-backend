@@ -50,6 +50,10 @@ const transactionSchema = new Schema(
       maxlength: [255, 'Panjang nama harus antara 3-225 karakter'],
       required: [true, 'nama harus diisi'],
     },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+    },
     tax: {
       type: Number,
       default: 0,
