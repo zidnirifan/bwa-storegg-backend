@@ -211,7 +211,6 @@ module.exports = {
       const { name = '', phoneNumber = '' } = req.body;
       const payload = {};
 
-      console.log(req.body);
       if (name.length) payload.name = name;
       if (phoneNumber.length) payload.phoneNumber = phoneNumber;
 
