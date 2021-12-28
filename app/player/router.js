@@ -7,6 +7,7 @@ const {
   history,
   historyDetail,
   dashboard,
+  profile,
 } = require('./controller');
 const { isLoginPlayer } = require('../middleware/auth');
 
@@ -19,5 +20,6 @@ router.post('/checkout', isLoginPlayer, checkout);
 router.get('/histories', isLoginPlayer, history);
 router.get('/histories/:id', isLoginPlayer, historyDetail);
 router.get('/dashboard', isLoginPlayer, dashboard);
+router.get('/profile', isLoginPlayer, profile);
 
 module.exports = router;

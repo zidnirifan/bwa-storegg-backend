@@ -191,4 +191,16 @@ module.exports = {
       return res.status(500).json({ message: 'Internal server error' });
     }
   },
+  profile: async (req, res) => {
+    try {
+      const player = await Player.findOne({ _id: req.playerId }).select(
+        '_id username email name avatar phoneNumber'
+      );
+
+      return res.json({ data: player });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  },
 };
