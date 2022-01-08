@@ -11,6 +11,7 @@
   },
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true }],
-    "no-console": "off"
+    "no-console": "off",
+    "no-underscore-dangle": "off"
   }
 }

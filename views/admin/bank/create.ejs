@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../../partials/header %>
+  <body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+      <!-- Navbar -->
+      <% include ../../partials/navbar %>
+      <!-- Main Sidebar Container -->
+      <% include ../../partials/sidebar %>
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>Bank</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
+                  <li class="breadcrumb-item">
+                    <a href="/bank">Bank</a>
+                  </li>
+                  <li class="breadcrumb-item active">Tambah</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title">Form tambah bank</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form action="/bank/create" method="POST">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="name">Nama Pemilik</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="name"
+                          id="name"
+                          placeholder="Tuliskan nama pemilik"
+                          required
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Nama Bank</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="bankName"
+                          id="bankName"
+                          placeholder="Tuliskan nama bank"
+                          required
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="accountNumber">Nomor Rekening</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="accountNumber"
+                          id="accountNumber"
+                          placeholder="Tuliskan nomor rekening"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">
+                        Simpan
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                <!-- /.card -->
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <!-- Footer -->
+      <% include ../../partials/footer %>
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+      </aside>
+      <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <% include ../../partials/js %>
+  </body>
+</html>
