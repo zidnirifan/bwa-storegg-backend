@@ -40,6 +40,7 @@ module.exports = {
         .populate('category')
         .populate('nominals')
         .populate('user', '_id name phoneNumber');
+      const payments = await Payment.find().populate('banks');
 
       if (!voucher) {
         return res
@@ -47,7 +48,10 @@ module.exports = {
           .json({ status: 'fail', message: 'voucher tidak ditemukan' });
       }
 
-      return res.json({ status: 'success', data: voucher });
+      return res.json({
+        status: 'success',
+        data: { ...voucher._doc, payments },
+      });
     } catch (err) {
       console.log(err.message);
       return res
